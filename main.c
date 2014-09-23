@@ -204,7 +204,7 @@ void read_conf(FILE * f)
 void write_default_conf(FILE * f)
 {
    char c[] =
-      "# Period between two temperature checks\n"
+      "# Period (in seconds) between two temperature checks\n"
       "check_period=2\n\n"
       
       "# Critical temperature limit ( 1000 = 1°C ) above which the CPU max p-state is set to the minimum\n"
@@ -451,13 +451,38 @@ double get_cpu_usage()
       {
          continue;
       }
-      cur_stat.active = atoi(strtok_r(NULL, tok, &saveptr))
-                        + atoi(strtok_r(NULL, tok, &saveptr)) 
-                        + atoi(strtok_r(NULL, tok, &saveptr));
-      while(NULL != (field = strtok_r(NULL, tok, &saveptr)))
-      {
-         cur_stat.idle += atoi(field);
-      }
+      
+      //See man proc at /proc/stat
+      //user
+      cur_stat.active += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //nice
+      cur_stat.active += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //system
+      cur_stat.active += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //idle
+      cur_stat.idle += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //iowait
+      cur_stat.idle += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //irq
+      cur_stat.active += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //softirq
+      cur_stat.active += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //steal
+      cur_stat.idle += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //guest
+      cur_stat.active += atoi(strtok_r(NULL, tok, &saveptr));
+      
+      //guest
+      cur_stat.active += atoi(strtok_r(NULL, tok, &saveptr));
+      
       break;
    }
    fclose(stat);
@@ -473,7 +498,7 @@ double get_cpu_usage()
       exit(1);
       return 0;
    }
-   r = ((double) (100 * (cur_stat.active - prev_stat.active))) / ((double) (cur_stat.idle - prev_stat.idle));
+   r = ((double) (100 * (cur_stat.active - prev_stat.active))) / ((double) (cur_stat.idle + cur_stat.active - prev_stat.idle - prev_stat.active));
    prev_stat = cur_stat;
    return r;
 }

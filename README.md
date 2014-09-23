@@ -30,7 +30,7 @@ Default configuration is created at first start. Edit /etc/conf.d/ix-cool.conf, 
 This is the default configuration :
 
 
-        # Period between two temperature checks
+        # Period (in seconds) between two temperature checks
         check_period=2
         
         # Critical temperature limit ( 1000 = 1°C ) above which the CPU max p-state is set to the minimum
