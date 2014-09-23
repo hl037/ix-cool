@@ -30,7 +30,7 @@ profile: $(TARGET)
 
 install: release
 	install -D $(TARGET) $(BINDIR)/$(TARGET)
-	install -D ix-coold.service $(DESTDIR)/$(SYSTEMD_LIB)/system
+	install -D ix-coold.service $(DESTDIR)/$(SYSTEMD_LIB)/system/ix-coold.service 
 	
 uninstall:
 	-rm $(BINDIR)/$(TARGET)
