@@ -1,0 +1,9 @@
+[Unit]
+Description=Forbid CPU to get too heat
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ix-coold
+
+[Install]
+WantedBy=multi-user.target
