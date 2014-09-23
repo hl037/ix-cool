@@ -383,23 +383,23 @@ void set_cpu_max(double pct)
    snprintf(line, 9, "%d", (int) pct);
    fputs(line, cpu_max);
    fclose(cpu_max);
-   info("CPU p-state max set to %d", (int) conf.cpu_max);
+   info("CPU p-state max set to %d", (int) pct);
 }
 
 void set_cpu_min(double pct)
 {
    char line[10];
-   FILE * cpu_max = fopen("/sys/devices/system/cpu/intel_pstate/min_perf_pct", "w");
-   if(cpu_max == NULL)
+   FILE * cpu_min = fopen("/sys/devices/system/cpu/intel_pstate/min_perf_pct", "w");
+   if(cpu_min == NULL)
    {
       error("Cannot write intel p-state max allowed (cannot write /sys/devices/system/cpu/intel_pstate/min_perf_pct)");
       exit(1);
       return;
    }
    snprintf(line, 9, "%d", (int) pct);
-   fputs(line, cpu_max);
-   fclose(cpu_max);
-   info("CPU p-state min set to %d", (int) conf.cpu_min);
+   fputs(line, cpu_min);
+   fclose(cpu_min);
+   info("CPU p-state min set to %d", (int) pct);
 }
 
 double get_cpu_max()
